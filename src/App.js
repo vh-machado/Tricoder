@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
 import "./App.css";
 import PulseChart from "./components/PulseChart";
 import { SettingsIcon } from '@chakra-ui/icons'
@@ -10,15 +9,14 @@ import {
   Center,
   Input,
   Button,
-  Box,
-  WrapItem,
-  Stack,
+  Fade,
   VStack,
 } from "@chakra-ui/react";
 
 import { converteNrzi, convertePseudo, converte4B3T } from "./Algoritmos";
 
-var seqEntrada = "0100001011101001";
+var seqEntrada;
+seqEntrada = "0100001011101001";
 
 var seqNrzi = converteNrzi(seqEntrada);
 seqNrzi.push(seqNrzi[seqNrzi.length - 1]);
@@ -30,7 +28,35 @@ seq4B3T.push(seq4B3T[seq4B3T.length - 1]);
 seqEntrada += " ";
 
 const App = () => {
-  const [count, setCount] = useState(0);
+  //const [sequenciaEntrada, setSequenciaEntrada] = useState([]);
+
+  const [buttonNrzi, setButtonNrzi] = useState(false);
+  const [buttonPseudo, setButtonPseudo] = useState(false);
+  const [button4B3T, setButton4B3T] = useState(false);
+
+  const [inputValue, setInputValue] = useState('')
+  const handleInputChange = (e) => setInputValue(e.target.value)
+ 
+  const clickNrzi = () => {
+    if(inputValue != ""){
+      
+      setButtonNrzi(!buttonNrzi);
+    }
+  }
+
+  const clickPseudo = () => {
+    if(inputValue != ""){
+      
+      setButtonPseudo(!buttonPseudo);
+    }
+  }
+
+  const click4B3T = () => {
+    if(inputValue != ""){
+      
+      setButton4B3T(!button4B3T);
+    }
+  }
 
   const [categoryNrzi, setCategoryNrzi] = useState([]);
   const [dataNrzi, setDataNrzi] = useState([]);
@@ -38,6 +64,8 @@ const App = () => {
   const [dataPseudo, setDataPseudo] = useState([]);
   const [category4B3T, setCategory4B3T] = useState([]);
   const [data4B3T, setData4B3T] = useState([]);
+  
+  
 
   useEffect(() => {
     const estadoNrzi = [];
@@ -102,7 +130,7 @@ const App = () => {
               >
                 Conversão
               </Text>
-
+              
               <Input
                 w="100%"
                 borderColor="#56CFE1"
@@ -121,18 +149,42 @@ const App = () => {
                 fontWeight="300"
                 size="md"
                 width="auto"
+                value={inputValue}
+                onChange={handleInputChange}
               />
+
             </Center>
             
 
             <VStack w="100%" mt="10" m="5" p="3">
-              <Button bg="#FB6D37" color="white" variant="solid" h="50px" w="100%" borderRadius="20">
+              <Button bg={(buttonNrzi)?"#FB6D37":"#FA9237"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+                _hover={{bg: "#C83C04"}}
+                _active={{bg:"#C83C04"}}
+                _focus={{
+                  boxShadow:
+                    '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+                }}
+                onClick={() => clickNrzi()}>
                 NRZI
               </Button>
-              <Button bg="#FB6D37" color="white" variant="solid" h="50px" w="100%" borderRadius="20">
+              <Button bg={(buttonPseudo)?"#FB6D37":"#FA9237"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+                _hover={{bg: "#C83C04"}}
+                _active={{bg:"#C83C04"}}
+                _focus={{
+                  boxShadow:
+                    '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+                }}
+                onClick={() => clickPseudo()}>
                 Pseudoternary
               </Button>
-              <Button bg="#FB6D37" color="white" variant="solid" h="50px" w="100%" borderRadius="20">
+              <Button bg={(button4B3T)?"#FB6D37":"#FA9237"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+                _hover={{bg: "#C83C04"}}
+                _active={{bg:"#C83C04"}}
+                _focus={{
+                  boxShadow:
+                    '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+                }}
+                onClick={() => click4B3T()}>
                 4B3T
               </Button>
             </VStack>
@@ -149,44 +201,64 @@ const App = () => {
             ml="8"
             mr="8"
           >
-            <Center bg="white" p="2" pt="5" borderRadius="10" shadow="xl">
-              <PulseChart
-                strokeColor="#00bfff"
-                idChart="Nrzi-example"
-                categoryX={categoryNrzi}
-                offsetXLabels={8}
-                tickAmountY={1}
-                colorsYLabels={["orangered", "limegreen"]}
-                titleChart="NRZI"
-                dataChart={dataNrzi}
-              />
-            </Center>
+            {/* Renderização condicional dos gráficos */}
+            {buttonNrzi
+              ? 
+                <Fade in={buttonNrzi}>
+                  <Center bg="white" p="2" pt="5" borderRadius="10" shadow="xl">
+                    <PulseChart
+                      strokeColor="#00bfff"
+                      idChart="Nrzi-example"
+                      categoryX={categoryNrzi}
+                      offsetXLabels={8}
+                      tickAmountY={1}
+                      colorsYLabels={["orangered", "limegreen"]}
+                      titleChart="NRZI"
+                      dataChart={dataNrzi}
+                    />
+                  </Center>
+                </Fade>
+              : <></>
+            }
 
-            <Center bg="white" pt="3" borderRadius="10" shadow="xl">
-              <PulseChart
-                strokeColor="#ff69b4"
-                idChart="pseudo-example"
-                categoryX={categoryPseudo}
-                offsetXLabels={8}
-                tickAmountY={2}
-                colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
-                titleChart="Pseudoternary"
-                dataChart={dataPseudo}
-              />
-            </Center>
+            {buttonPseudo
+              ? 
+                <Fade in={buttonPseudo}>
+                  <Center bg="white" pt="3" borderRadius="10" shadow="xl">
+                    <PulseChart
+                      strokeColor="#ff69b4"
+                      idChart="pseudo-example"
+                      categoryX={categoryPseudo}
+                      offsetXLabels={8}
+                      tickAmountY={2}
+                      colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
+                      titleChart="Pseudoternary"
+                      dataChart={dataPseudo}
+                    />
+                  </Center>
+                </Fade>
+              : <></>
+            }
 
-            <Center bg="white" pt="3" borderRadius="10" shadow="xl">
-              <PulseChart
-                strokeColor="#ff8c00"
-                idChart="4B3T-example"
-                categoryX={category4B3T}
-                offsetXLabels={10}
-                tickAmountY={2}
-                colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
-                titleChart="4B3T"
-                dataChart={data4B3T}
-              />
-            </Center>
+            {button4B3T
+              ? 
+                <Fade in={button4B3T}>
+                  <Center bg="white" pt="3" borderRadius="10" shadow="xl">
+                    <PulseChart
+                      strokeColor="#ff8c00"
+                      idChart="4B3T-example"
+                      categoryX={category4B3T}
+                      offsetXLabels={10}
+                      tickAmountY={2}
+                      colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
+                      titleChart="4B3T"
+                      dataChart={data4B3T}
+                    />
+                  </Center>
+                </Fade>
+              : <></>
+            }
+            
           </VStack>
         </Flex>
         
