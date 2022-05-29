@@ -175,7 +175,7 @@ const App = () => {
         >
           <Center flex="1" flexDirection="column" alignSelf="flex-start">
 
-            <Center flexDirection="row" align="flex-start" alignSelf="flex-start" p="1" pl="3" ml="-3" mt="3" mb="3" pr="3" bg="#FB6D37" borderBottomRightRadius="20" borderTopRightRadius="20">
+            <Center flexDirection="row" align="flex-start" alignSelf="flex-start" p="1" pl="3" ml="-3" mt="3" mb="3" pr="3" bg="#FB6D37" borderBottomRightRadius="20" borderTopRightRadius="20" shadow="md">
               <Image src={logo} boxSize="20px"/>
               <Text 
                 w="100%"
@@ -259,7 +259,7 @@ const App = () => {
             
 
             <VStack w="100%" m="5" mb="2" p="3">
-              <Button bg={(buttonNrzi)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+              <Button bg={(buttonNrzi)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20" shadow="md"
                 _hover={{bg: "#FB6D37"}}
                 _active={{bg:"#FB6D37"}}
                 _focus={{
@@ -269,7 +269,7 @@ const App = () => {
                 onClick={() => clickNrzi()}>
                 NRZI
               </Button>
-              <Button bg={(buttonPseudo)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+              <Button bg={(buttonPseudo)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20" shadow="md"
                 _hover={{bg: "#FB6D37"}}
                 _active={{bg:"#FB6D37"}}
                 _focus={{
@@ -279,7 +279,7 @@ const App = () => {
                 onClick={() => clickPseudo()}>
                 Pseudoternary
               </Button>
-              <Button bg={(button4B3T)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+              <Button bg={(button4B3T)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20" shadow="md"
                 _hover={{bg: "#FB6D37"}}
                 _active={{bg:"#FB6D37"}}
                 _focus={{
@@ -292,7 +292,7 @@ const App = () => {
             </VStack>
             
             <Center w="100%" m="3" borderRadius="20" p="3" pb="5">
-              <Button w="100%" color="white" variant="solid" h="60px" borderRadius="25"
+              <Button w="100%" color="white" variant="solid" h="60px" borderRadius="25" shadow="md"
                 bg="#6454C3"
                 _hover={{bg: "#4E3B9D"}}
                 _active={{bg:"#4E3B9D"}}
