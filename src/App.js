@@ -11,31 +11,10 @@ import {
   Button,
   Fade,
   VStack,
-  Box,
   Image,
 } from "@chakra-ui/react";
 
 import { converteNrzi, convertePseudo, converte4B3T } from "./Algoritmos";
-
-//var seqEntrada;
-//seqEntrada = "0100001011101001";
-
-/*
-var seqNrzi = "";
-var seqPseudo = "";
-var seq4B3T = "";
-*/
-
-/*
-var seqNrzi = converteNrzi(seqEntrada);
-seqNrzi.push(seqNrzi[seqNrzi.length - 1]);
-var seqPseudo = convertePseudo(seqEntrada);
-seqPseudo.push(seqPseudo[seqPseudo.length - 1]);
-var seq4B3T = converte4B3T(seqEntrada);
-seq4B3T.push(seq4B3T[seq4B3T.length - 1]);
-
-seqEntrada += " ";
-*/
 
 const quantidadeBits = 16;
 const banner = require("./assets/img/banner.png");
@@ -51,10 +30,6 @@ const App = () => {
   const [showNrzi, setShowNrzi] = useState(false);
   const [showPseudo, setShowPseudo] = useState(false);
   const [show4B3T, setShow4B3T] = useState(false);
-  const [showBanner, setShowBanner] = useState(false);
-  
-  //const [buttonGerar, setButtonGerar] = useState(false);
-
 
   const [inputValue, setInputValue] = useState('')
   
