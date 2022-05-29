@@ -81,6 +81,7 @@ export function converte4B3T(seq) {
   var disparidade = -2;
   const codificaTernario = (grupo) => {
     switch (grupo) {
+
       case "0000":
         if (disparidade <= 1) {
           disparidade = disparidade + 2;
@@ -198,6 +199,7 @@ export function converte4B3T(seq) {
     }
     console.log(disparidade);
   };
+
 
   var qbttSeq = [];
   const agrupamentos = seq.split(/(.{4})/).filter((O) => O);
