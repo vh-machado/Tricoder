@@ -62,7 +62,7 @@ export function convertePseudo(seq) {
           pseudoSeq.push(-1);
           estado = "-1";
           i++;
-        } else if (estado === "-1") {
+        } else if (estado === "-1" || estado === "0") {
           pseudoSeq.push(1);
           estado = "1";
           i++;
