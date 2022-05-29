@@ -15,9 +15,16 @@ import {
 
 import { converteNrzi, convertePseudo, converte4B3T } from "./Algoritmos";
 
-var seqEntrada;
-seqEntrada = "0100001011101001";
+//var seqEntrada;
+//seqEntrada = "0100001011101001";
 
+/*
+var seqNrzi = "";
+var seqPseudo = "";
+var seq4B3T = "";
+*/
+
+/*
 var seqNrzi = converteNrzi(seqEntrada);
 seqNrzi.push(seqNrzi[seqNrzi.length - 1]);
 var seqPseudo = convertePseudo(seqEntrada);
@@ -26,9 +33,10 @@ var seq4B3T = converte4B3T(seqEntrada);
 seq4B3T.push(seq4B3T[seq4B3T.length - 1]);
 
 seqEntrada += " ";
+*/
 
 const App = () => {
-  //const [sequenciaEntrada, setSequenciaEntrada] = useState([]);
+  const [sequenciaEntrada, setSequenciaEntrada] = useState("");
 
   const [buttonNrzi, setButtonNrzi] = useState(false);
   const [buttonPseudo, setButtonPseudo] = useState(false);
@@ -36,27 +44,33 @@ const App = () => {
 
   const [inputValue, setInputValue] = useState('')
   const handleInputChange = (e) => setInputValue(e.target.value)
- 
+
   const clickNrzi = () => {
     if(inputValue != ""){
-      
+      setSequenciaEntrada(inputValue);
       setButtonNrzi(!buttonNrzi);
     }
   }
 
   const clickPseudo = () => {
     if(inputValue != ""){
-      
+      setSequenciaEntrada(inputValue);
       setButtonPseudo(!buttonPseudo);
     }
   }
 
   const click4B3T = () => {
     if(inputValue != ""){
-      
+      setSequenciaEntrada(inputValue);
       setButton4B3T(!button4B3T);
     }
   }
+  
+  /*
+  const [sequenciaNrzi, setSequenciaNrzi] = useState([]);
+  const [sequenciaPseudo, setSequenciaPseudo] = useState([]);
+  const [sequencia4B3T, setSequencia4B3T] = useState([]);
+  */
 
   const [categoryNrzi, setCategoryNrzi] = useState([]);
   const [dataNrzi, setDataNrzi] = useState([]);
@@ -66,44 +80,63 @@ const App = () => {
   const [data4B3T, setData4B3T] = useState([]);
   
   
-
   useEffect(() => {
-    const estadoNrzi = [];
-    const numBitsNrzi = [];
-    const estadoPseudo = [];
-    const numBitsPseudo = [];
-    const estado4B3T = [];
-    const numBits4B3T = [];
+    if(sequenciaEntrada != ""){
+      const estadoNrzi = [];
+      const numBitsNrzi = [];
+      const estadoPseudo = [];
+      const numBitsPseudo = [];
+      const estado4B3T = [];
+      const numBits4B3T = [];
 
-    for (var i = 0; i < seqNrzi.length; i++) {
-      estadoNrzi.push(seqNrzi[i]);
-      numBitsNrzi.push(seqEntrada[i]);
-    }
+      var sequencia = sequenciaEntrada;
 
-    for (var j = 0; j < seqPseudo.length; j++) {
-      estadoPseudo.push(seqPseudo[j]);
-      numBitsPseudo.push(seqEntrada[j]);
-    }
+      var seqNrzi = []
+      seqNrzi = converteNrzi(sequenciaEntrada);
+      seqNrzi.push(seqNrzi[seqNrzi.length - 1]);
+      
+      var seqPseudo = []
+      seqPseudo = convertePseudo(sequenciaEntrada);
+      seqPseudo.push(seqPseudo[seqPseudo.length - 1]);
 
-    for (var h = 0; h < seq4B3T.length; h++) {
-      estado4B3T.push(seq4B3T[h]);
-      if (h == seq4B3T.length - 1) {
-        numBits4B3T.push(" ");
-      } else if (seq4B3T[h] == -1) {
-        numBits4B3T.push("-");
-      } else if (seq4B3T[h] == 1) {
-        numBits4B3T.push("+");
-      } else {
-        numBits4B3T.push(seq4B3T[h]);
+      var seq4B3T = []
+      seq4B3T = converte4B3T(sequenciaEntrada);
+      seq4B3T.push(seq4B3T[seq4B3T.length - 1]);
+      
+      sequencia += " ";
+
+      for (var i = 0; i < seqNrzi.length; i++) {
+        estadoNrzi.push(seqNrzi[i]);
+        numBitsNrzi.push(sequencia[i]);
       }
-    }
 
-    setCategoryNrzi(numBitsNrzi);
-    setDataNrzi(estadoNrzi);
-    setCategoryPseudo(numBitsPseudo);
-    setDataPseudo(estadoPseudo);
-    setCategory4B3T(numBits4B3T);
-    setData4B3T(estado4B3T);
+      for (var j = 0; j < seqPseudo.length; j++) {
+        estadoPseudo.push(seqPseudo[j]);
+        numBitsPseudo.push(sequencia[j]);
+      }
+
+      for (var h = 0; h < seq4B3T.length; h++) {
+        estado4B3T.push(seq4B3T[h]);
+        if (h == seq4B3T.length - 1) {
+          numBits4B3T.push(" ");
+        } else if (seq4B3T[h] == -1) {
+          numBits4B3T.push("-");
+        } else if (seq4B3T[h] == 1) {
+          numBits4B3T.push("+");
+        } else {
+          numBits4B3T.push(seq4B3T[h]);
+        }
+      }
+      
+      
+      setCategoryNrzi(numBitsNrzi);
+      setDataNrzi(estadoNrzi);
+      setCategoryPseudo(numBitsPseudo);
+      setDataPseudo(estadoPseudo);
+      setCategory4B3T(numBits4B3T);
+      setData4B3T(estado4B3T);
+    }
+    
   });
   return (
     <Flex flex="1" bg="#FBD561" h="100vh" direction="row" justify="center" pt="3" pb="3" pl="10" pr="10">
