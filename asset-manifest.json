@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/tricoder/static/css/main.073c9b0a.css",
+    "main.js": "/tricoder/static/js/main.affe12b6.js",
+    "static/js/787.b25a4863.chunk.js": "/tricoder/static/js/787.b25a4863.chunk.js",
+    "static/media/banner.png": "/tricoder/static/media/banner.af18ce3bd8c30cfec35d.png",
+    "index.html": "/tricoder/index.html",
+    "main.073c9b0a.css.map": "/tricoder/static/css/main.073c9b0a.css.map",
+    "main.affe12b6.js.map": "/tricoder/static/js/main.affe12b6.js.map",
+    "787.b25a4863.chunk.js.map": "/tricoder/static/js/787.b25a4863.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.affe12b6.js"
+  ]
+}
