@@ -16,7 +16,7 @@ import {
 import { converteNrzi, convertePseudo, converte4B3T } from "./Algoritmos";
 
 var seqEntrada;
-seqEntrada = "0100001011101001";
+seqEntrada = "0100101010011101";
 
 var seqNrzi = converteNrzi(seqEntrada);
 seqNrzi.push(seqNrzi[seqNrzi.length - 1]);
