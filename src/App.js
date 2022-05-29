@@ -11,6 +11,8 @@ import {
   Button,
   Fade,
   VStack,
+  Box,
+  Image,
 } from "@chakra-ui/react";
 
 import { converteNrzi, convertePseudo, converte4B3T } from "./Algoritmos";
@@ -35,6 +37,10 @@ seq4B3T.push(seq4B3T[seq4B3T.length - 1]);
 seqEntrada += " ";
 */
 
+const quantidadeBits = 16;
+const banner = require("./assets/img/banner.png");
+const logo = require("./assets/img/logo.png");
+
 const App = () => {
   const [sequenciaEntrada, setSequenciaEntrada] = useState("");
 
@@ -42,35 +48,54 @@ const App = () => {
   const [buttonPseudo, setButtonPseudo] = useState(false);
   const [button4B3T, setButton4B3T] = useState(false);
 
+  const [showNrzi, setShowNrzi] = useState(false);
+  const [showPseudo, setShowPseudo] = useState(false);
+  const [show4B3T, setShow4B3T] = useState(false);
+  const [showBanner, setShowBanner] = useState(false);
+  
+  //const [buttonGerar, setButtonGerar] = useState(false);
+
+
   const [inputValue, setInputValue] = useState('')
-  const handleInputChange = (e) => setInputValue(e.target.value)
+  
+  const isInputInvalid = inputValue.length != quantidadeBits;
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
+
+  const handleInputChange = (e) => {
+    const valor = e.target.value;
+    if(valor === "" && inputValue.length == 1){
+      setInputValue(valor)
+    } else if(valor[(valor).length-1] !== "0" && valor[(valor).length-1] !== "1") {
+      e.preventDefault();
+    } else {
+      setInputValue(valor)
+    }
+  }
 
   const clickNrzi = () => {
-    if(inputValue != ""){
-      setSequenciaEntrada(inputValue);
-      setButtonNrzi(!buttonNrzi);
-    }
+    setButtonNrzi(!buttonNrzi);
   }
 
   const clickPseudo = () => {
-    if(inputValue != ""){
-      setSequenciaEntrada(inputValue);
-      setButtonPseudo(!buttonPseudo);
-    }
+    setButtonPseudo(!buttonPseudo);
   }
 
   const click4B3T = () => {
-    if(inputValue != ""){
+    setButton4B3T(!button4B3T);
+  }
+
+  const clickGerar = () => {
+    if(!isInputInvalid){
+      setShowErrorMessage(false);
       setSequenciaEntrada(inputValue);
-      setButton4B3T(!button4B3T);
+      setShowNrzi(buttonNrzi);
+      setShowPseudo(buttonPseudo);
+      setShow4B3T(button4B3T);
+    } else {
+      setShowErrorMessage(true);
     }
   }
   
-  /*
-  const [sequenciaNrzi, setSequenciaNrzi] = useState([]);
-  const [sequenciaPseudo, setSequenciaPseudo] = useState([]);
-  const [sequencia4B3T, setSequencia4B3T] = useState([]);
-  */
 
   const [categoryNrzi, setCategoryNrzi] = useState([]);
   const [dataNrzi, setDataNrzi] = useState([]);
@@ -81,7 +106,7 @@ const App = () => {
   
   
   useEffect(() => {
-    if(sequenciaEntrada != ""){
+    if(sequenciaEntrada !== ""){
       const estadoNrzi = [];
       const numBitsNrzi = [];
       const estadoPseudo = [];
@@ -117,11 +142,11 @@ const App = () => {
 
       for (var h = 0; h < seq4B3T.length; h++) {
         estado4B3T.push(seq4B3T[h]);
-        if (h == seq4B3T.length - 1) {
+        if (h === seq4B3T.length - 1) {
           numBits4B3T.push(" ");
-        } else if (seq4B3T[h] == -1) {
+        } else if (seq4B3T[h] === -1) {
           numBits4B3T.push("-");
-        } else if (seq4B3T[h] == 1) {
+        } else if (seq4B3T[h] === 1) {
           numBits4B3T.push("+");
         } else {
           numBits4B3T.push(seq4B3T[h]);
@@ -140,21 +165,38 @@ const App = () => {
   });
   return (
     <Flex flex="1" bg="#FBD561" h="100vh" direction="row" justify="center" pt="3" pb="3" pl="10" pr="10">
-      <Center bg="#FFFFFF" direction="row" borderRadius="18" shadow="xl">
+      <Center align="stretch" alignSelf="center" bg="#FFFFFF" direction="row" borderRadius="18" shadow="xl" w="1180px" h="620px">
+      
         <Center
           flexDiretction="column"
           h="100%"
-          w="280px"
+          w="300px"
           p="3"
         >
           <Center flex="1" flexDirection="column" alignSelf="flex-start">
-            <Center flex="1" bg="#FFF7EE" flexDirection="column" m="3" borderRadius="20" p="3" pb="5">
+
+            <Center flexDirection="row" align="flex-start" alignSelf="flex-start" p="1" pl="3" ml="-3" mt="3" mb="3" pr="3" bg="#FB6D37" borderBottomRightRadius="20" borderTopRightRadius="20">
+              <Image src={logo} boxSize="20px"/>
+              <Text 
+                w="100%"
+                fontSize="xs"
+                m="2"
+                color="white"
+                alignSelf="flex-start"
+                fontFamily="Rubik"
+                fontWeight="300"
+              >
+                Tricoder
+              </Text>
+            </Center>
+
+            <Center flex="1" bg="#FFF7EE" flexDirection="column" m="3" mb="1" borderRadius="20" p="3" pb="5">
               
-              <SettingsIcon/>
+              <SettingsIcon alignSelf="flex-start" m="2" color="#4E3B9D"/>
 
               <Text
                 w="100%"
-                mb="8px"
+                fontSize="md"
                 m="2"
                 color="#4E3B9D"
                 alignSelf="flex-start"
@@ -166,9 +208,8 @@ const App = () => {
               
               <Input
                 w="100%"
-                borderColor="#56CFE1"
-                focusBorderColor="#56CFE1"
-                errorBorderColor="red"
+                borderColor={(!showErrorMessage)?"#56CFE1":"red"}
+                focusBorderColor={(!showErrorMessage)?"#56CFE1":"red"}
                 placeholder="Código"
                 _placeholder={{
                   opacity: 1,
@@ -177,22 +218,50 @@ const App = () => {
                   fontWeight: 300,
                 }}
                 borderRadius="15"
-                color="#4E3B9D"
+                color={(!showErrorMessage)?"#4E3B9D":"red"}
                 fontFamily="Rubik"
                 fontWeight="300"
                 size="md"
                 width="auto"
                 value={inputValue}
+                inputMode="numeric"
                 onChange={handleInputChange}
               />
+
+              {!showErrorMessage ?
+                <Text 
+                  w="100%"
+                  fontSize="xs"
+                  m="2"
+                  color="#4E3B9D"
+                  alignSelf="flex-start"
+                  fontFamily="Rubik"
+                  fontWeight="300"
+                >
+                  Digite a sequência a ser codificada.
+                </Text>
+                :
+                <Text
+                  w="100%"
+                  fontSize="xs"
+                  m="2"
+                  color="red"
+                  alignSelf="flex-start"
+                  fontFamily="Rubik"
+                  fontWeight="300"
+                >
+                  A sequência deve conter 16 bits.
+                </Text>
+              }
+            
 
             </Center>
             
 
-            <VStack w="100%" mt="10" m="5" p="3">
-              <Button bg={(buttonNrzi)?"#FB6D37":"#FA9237"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
-                _hover={{bg: "#C83C04"}}
-                _active={{bg:"#C83C04"}}
+            <VStack w="100%" m="5" mb="2" p="3">
+              <Button bg={(buttonNrzi)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+                _hover={{bg: "#FB6D37"}}
+                _active={{bg:"#FB6D37"}}
                 _focus={{
                   boxShadow:
                     '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
@@ -200,9 +269,9 @@ const App = () => {
                 onClick={() => clickNrzi()}>
                 NRZI
               </Button>
-              <Button bg={(buttonPseudo)?"#FB6D37":"#FA9237"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
-                _hover={{bg: "#C83C04"}}
-                _active={{bg:"#C83C04"}}
+              <Button bg={(buttonPseudo)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+                _hover={{bg: "#FB6D37"}}
+                _active={{bg:"#FB6D37"}}
                 _focus={{
                   boxShadow:
                     '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
@@ -210,9 +279,9 @@ const App = () => {
                 onClick={() => clickPseudo()}>
                 Pseudoternary
               </Button>
-              <Button bg={(button4B3T)?"#FB6D37":"#FA9237"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
-                _hover={{bg: "#C83C04"}}
-                _active={{bg:"#C83C04"}}
+              <Button bg={(button4B3T)?"#C83C04":"#FFAC64"} color="white" variant="solid" h="50px" w="100%" borderRadius="20"
+                _hover={{bg: "#FB6D37"}}
+                _active={{bg:"#FB6D37"}}
                 _focus={{
                   boxShadow:
                     '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
@@ -221,80 +290,119 @@ const App = () => {
                 4B3T
               </Button>
             </VStack>
+            
+            <Center w="100%" m="3" borderRadius="20" p="3" pb="5">
+              <Button w="100%" color="white" variant="solid" h="60px" borderRadius="25"
+                bg="#6454C3"
+                _hover={{bg: "#4E3B9D"}}
+                _active={{bg:"#4E3B9D"}}
+                _focus={{
+                  boxShadow:
+                    '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+                }}
+                onClick={() => clickGerar()}>
+                Gerar
+              </Button>
+            </Center>
+
           </Center>
         </Center>
         
-        <Flex h="100%" bg="#F8F8F7" borderTopRightRadius="18" borderBottomRightRadius="18">
-          <VStack
-            flex="1"
-            align="stretch"
-            justify="center"
-            direction="column"
-            m="2"
-            ml="8"
-            mr="8"
-          >
-            {/* Renderização condicional dos gráficos */}
-            {buttonNrzi
-              ? 
-                <Fade in={buttonNrzi}>
-                  <Center bg="white" p="2" pt="5" borderRadius="10" shadow="xl">
-                    <PulseChart
-                      strokeColor="#00bfff"
-                      idChart="Nrzi-example"
-                      categoryX={categoryNrzi}
-                      offsetXLabels={8}
-                      tickAmountY={1}
-                      colorsYLabels={["orangered", "limegreen"]}
-                      titleChart="NRZI"
-                      dataChart={dataNrzi}
-                    />
-                  </Center>
-                </Fade>
-              : <></>
-            }
-
-            {buttonPseudo
-              ? 
-                <Fade in={buttonPseudo}>
-                  <Center bg="white" pt="3" borderRadius="10" shadow="xl">
-                    <PulseChart
-                      strokeColor="#ff69b4"
-                      idChart="pseudo-example"
-                      categoryX={categoryPseudo}
-                      offsetXLabels={8}
-                      tickAmountY={2}
-                      colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
-                      titleChart="Pseudoternary"
-                      dataChart={dataPseudo}
-                    />
-                  </Center>
-                </Fade>
-              : <></>
-            }
-
-            {button4B3T
-              ? 
-                <Fade in={button4B3T}>
-                  <Center bg="white" pt="3" borderRadius="10" shadow="xl">
-                    <PulseChart
-                      strokeColor="#ff8c00"
-                      idChart="4B3T-example"
-                      categoryX={category4B3T}
-                      offsetXLabels={10}
-                      tickAmountY={2}
-                      colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
-                      titleChart="4B3T"
-                      dataChart={data4B3T}
-                    />
-                  </Center>
-                </Fade>
-              : <></>
-            }
+        <Center w="920px" h="100%" bg="#F8F8F7" borderTopRightRadius="18" borderBottomRightRadius="18">
             
-          </VStack>
-        </Flex>
-        
+          {(!show4B3T && !showPseudo && !showNrzi)
+            ?
+              <Center 
+                flex="1"
+                align="stretch"
+                justify="center"
+                direction="column"
+                m="2"
+                ml="8"
+                mr="8">
+
+                <Fade in={(!show4B3T && !showPseudo && !showNrzi)}>
+                  <Center pt="3" pr="3" pl="3">
+                    <Image src={banner}/>
+                  </Center>
+                </Fade>
+              </Center>
+            :
+              <VStack
+                flex="1"
+                align="stretch"
+                justify="center"
+                direction="column"
+                m="2"
+                ml="8"
+                mr="8"
+              > 
+
+                
+
+                
+
+                {showNrzi
+                  ? 
+                    <Fade in={showNrzi}>
+                      <Center bg="white" pt="3" pr="3" pl="3" borderRadius="10" shadow="xl">
+                        <PulseChart
+                          strokeColor="#00bfff"
+                          idChart="Nrzi-example"
+                          categoryX={categoryNrzi}
+                          offsetXLabels={8}
+                          tickAmountY={1}
+                          colorsYLabels={["orangered", "limegreen"]}
+                          titleChart="NRZI"
+                          dataChart={dataNrzi}
+                        />
+                      </Center>
+                    </Fade>
+                  : <></>
+                }
+
+                {showPseudo
+                  ? 
+                    <Fade in={showPseudo}>
+                      <Center bg="white" pt="3" pr="3" pl="3" borderRadius="10" shadow="xl">
+                        <PulseChart
+                          strokeColor="#ff69b4"
+                          idChart="pseudo-example"
+                          categoryX={categoryPseudo}
+                          offsetXLabels={8}
+                          tickAmountY={2}
+                          colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
+                          titleChart="Pseudoternary"
+                          dataChart={dataPseudo}
+                        />
+                      </Center>
+                    </Fade>
+                  : <></>
+                }
+
+                {show4B3T
+                  ? 
+                    <Fade in={show4B3T}>
+                      <Center bg="white" pt="3" pr="3" pl="3" borderRadius="10" shadow="xl">
+                        <PulseChart
+                          strokeColor="#ff8c00"
+                          idChart="4B3T-example"
+                          categoryX={category4B3T}
+                          offsetXLabels={10}
+                          tickAmountY={2}
+                          colorsYLabels={["orangered", "#4E3B9D", "limegreen"]}
+                          titleChart="4B3T"
+                          dataChart={data4B3T}
+                        />
+                      </Center>
+                    </Fade>
+                  : <></>
+                }
+                
+              </VStack>
+              }
+        </Center>
+
       </Center>
     </Flex>
   );
