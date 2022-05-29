@@ -78,43 +78,129 @@ export function convertePseudo(seq) {
 }
 
 export function converte4B3T(seq) {
-  
+  var disparidade = -2;
   const codificaTernario = (grupo) => {
     switch (grupo) {
+
       case "0000":
-        return [1, 0, 1]; // + 0 +, (+2)
+        if(disparidade<=1){
+          disparidade = disparidade+2
+          return [1, 0, 1]; // + 0 +, (+2)
+        }else if (disparidade>1){
+          disparidade = disparidade-1
+          return [0, -1, 0]; // 0 - 0, (-1)
+        }
+
       case "0001":
+        disparidade = disparidade+0
         return [0, -1, 1]; // 0 - +, (+0)
+
       case "0010":
+        disparidade = disparidade+0
         return [1, -1, 0]; // + - 0, (+0)
+
       case "0011":
-        return [0, 0, 1]; // 0 0 +, (+1)
+        if(disparidade<=3){
+          disparidade = disparidade+1
+          return [0, 0, 1]; // 0 0 +, (+1)
+        }else if(disparidade>3){
+          disparidade = disparidade-2
+          return [-1, 0]; // - 0, (-2)
+        }
+
       case "0100":
+        disparidade = disparidade+0
         return [-1, 1, 0]; // - + 0, (+0)
+
       case "0101":
-        return [0, 1, 1]; // 0 + +, (+2)
+        if(disparidade <=1){
+          disparidade = disparidade+2
+          return [0, 1, 1]; // 0 + +, (+2)
+        }else if(disparidade>1){
+          disparidade = disparidade-1
+          return [-1, 0, 0]; // - 0 0, (-1)
+        }
+        
       case "0110":
-        return [-1, 1, 1]; // - + +, (+1)
+        if(disparidade <=2){
+          disparidade = disparidade+1
+          return [-1, 1, 1]; // - + +, (+1)
+        }else if(disparidade>2){
+          disparidade = disparidade-1
+          return [-1, -1, 1]; // - - +, (-1)
+        }
+
       case "0111":
+        disparidade = disparidade+0
         return [-1, 0, 1]; // - 0 +, (+0)
+
       case "1000":
-        return [1, 0, 0]; // + 0 0, (+1)
+        if(disparidade <=3){
+          disparidade = disparidade+1
+          return [1, 0, 0]; // + 0 0, (+1)
+        }else if(disparidade>3){
+          disparidade = disparidade-2
+          return [0, -1, -1]; // 0 - -, (-2)
+        }
+
       case "1001":
-        return [1, -1, 1]; // + - +, (+1)
+        if(disparidade <=3){
+          disparidade = disparidade+1
+          return [1, -1, 1]; // + - +, (+1)
+          
+        }else if(disparidade>3){
+          disparidade = disparidade-3
+          return [-1, -1, -1]; // - - -, (-3)
+        }
+  
+
       case "1010":
-        return [1, 1, -1]; // + + -, (+1)
+        if(disparidade <=2){
+          disparidade = disparidade+1
+          return [1, 1, -1]; // + + -, (+1)
+        }else if(disparidade>2){
+          disparidade = disparidade-1
+          return [1, -1, -1]; // + - -, (-1)
+        }
+
       case "1011":
+        disparidade = disparidade+0
         return [1, 0, -1]; // + 0 -, (+0)
+
       case "1100":
-        return [1, 1, 1]; // + + +, (+3)
+        if(disparidade <=1){
+          disparidade = disparidade+3
+          return [1, 1, 1]; // + + +, (+3)
+        }else if(disparidade>1){
+          disparidade = disparidade-1
+          return [-1, 1, -1]; // - + -, (-1)
+        }
+
+        
       case "1101":
-        return [0, 1, 0]; // 0 + 0, (+1)
+        if(disparidade <=3){
+          disparidade = disparidade+1
+          return [0, 1, 0]; // 0 + 0, (+1)
+        }else if(disparidade>3){
+          disparidade = disparidade-2
+          return [-1, 0, -1]; // - 0 -, (-2)
+        }
+
       case "1110":
+        disparidade = disparidade+0
         return [0, 1, -1]; // 0 + -, (+0)
+
       case "1111":
-        return [1, 1, 0]; // + + 0, (+2)
+        if(disparidade <=1){
+          disparidade = disparidade+2
+          return [1, 1, 0]; // + + 0, (+2)
+        }else if(disparidade>1){
+          disparidade = disparidade-1
+          return [0, 0, -1]; // - + -, (-1)
+        }
       default:
     }
+    console.log(disparidade)
   }
 
   var qbttSeq = [];
