@@ -64,7 +64,7 @@ export default function PulseChart(props) {
           strokeDashArray: 4.5,
           borderColor: "#4E3B9D",
           padding: {
-              top: 10,
+            top: 10,
           },
           xaxis: {
             lines: {
