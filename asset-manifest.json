@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/Tricoder/static/css/main.073c9b0a.css",
-    "main.js": "/Tricoder/static/js/main.be374928.js",
+    "main.js": "/Tricoder/static/js/main.b72f8bb9.js",
     "static/js/787.b25a4863.chunk.js": "/Tricoder/static/js/787.b25a4863.chunk.js",
     "static/media/banner.png": "/Tricoder/static/media/banner.af18ce3bd8c30cfec35d.png",
     "index.html": "/Tricoder/index.html",
     "main.073c9b0a.css.map": "/Tricoder/static/css/main.073c9b0a.css.map",
-    "main.be374928.js.map": "/Tricoder/static/js/main.be374928.js.map",
+    "main.b72f8bb9.js.map": "/Tricoder/static/js/main.b72f8bb9.js.map",
     "787.b25a4863.chunk.js.map": "/Tricoder/static/js/787.b25a4863.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.be374928.js"
+    "static/js/main.b72f8bb9.js"
   ]
 }
