@@ -12,7 +12,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import PulseChart from "./components/PulseChart";
-import { converteNrzi, convertePseudo, converte4B3T, converte4B3T2 } from "./Algoritmos";
+import { converteNrzi, convertePseudo, converte4B3T } from "./Algoritmos";
 
 const banner = require("./assets/img/banner.png");
 const logo = require("./assets/img/logo.png");
@@ -123,7 +123,7 @@ const App = () => {
       seqPseudo.push(seqPseudo[seqPseudo.length - 1]); // Duplicação do último bit para manter a reta no final do gráfico
 
       var seq4B3T = [];
-      seq4B3T = converte4B3T2(sequenciaEntrada); // Conversão da sequência de entrada para 4B3T
+      seq4B3T = converte4B3T(sequenciaEntrada); // Conversão da sequência de entrada para 4B3T
       seq4B3T.push(seq4B3T[seq4B3T.length - 1]); // Duplicação do último bit para manter a reta no final do gráfico
 
       sequencia += " "; // Para formatação dos rótulos do eixo x dos gráficos
